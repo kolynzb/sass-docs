@@ -1,0 +1,52 @@
+@import "./variables";
+@import "./resets";
+
+@function weight($weight-name) {
+  @return map-get($font-weights, $weight-name);
+}
+
+@mixin theme($light-theme: true) {
+  @if $light-theme {
+    background: lighten($primary-color, 100%);
+    color: darken($text-color, 100%);
+  }
+}
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin flexBetween($direction) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+body {
+  background: $primary-color;
+  color: $text-color;
+  font-weight: map-get($font-weights, bold);
+}
+.main {
+  @include flexCenter;
+  width: 100% - 20%;
+  height: calc(100% - 20px); //you cannot mix types in sass
+  margin: 0 auto;
+  #{&}__paragraph {
+    font-weight: weight(regular); //calling a funcion
+    &:hover {
+      color: $hover-color;
+    }
+    div {
+      @include flexBetween(column);
+    }
+  }
+  #{&}__paragraph2 {
+    @extend .main__paragraph;
+  }
+}
+.light {
+  @include theme(false);
+}
